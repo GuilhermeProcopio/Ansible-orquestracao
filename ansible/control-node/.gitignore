@@ -1,2 +1,3 @@
 *.vagrant/
 *.box
+ansible/control-node/.vagrant/machines/default/virtualbox/private_key
