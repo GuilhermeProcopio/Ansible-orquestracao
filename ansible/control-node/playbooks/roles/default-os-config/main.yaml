@@ -1,0 +1,8 @@
+- name: upping to date all os packages
+  yum:
+    name: "*"
+    state: latest
+- name: installing git client
+  yum:
+    name: git
+    state: latest

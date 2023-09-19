@@ -4,6 +4,7 @@
 sudo yum -y install epel-release
 echo "installing ansible"
 sudo yum -y install ansible
+ansible-galaxy install geerlingguy.mysql
 
 # adding hosts
 cat <<EOT >> /etc/hosts
