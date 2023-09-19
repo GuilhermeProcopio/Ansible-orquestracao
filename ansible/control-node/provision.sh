@@ -1,4 +1,4 @@
-#!bin/sh
+#!/usr/bin/env bash
 
 # installing ansible
 sudo yum -y install epel-release
