@@ -1,0 +1,56 @@
+---
+- name: server java app configuration
+  hosts: app01
+
+  user: vagrant
+  become: yes
+
+  vars:
+    - dbhost: "db01"
+    - dbname: "db01"
+    - dbusername: "root"
+    - dbpassword: "root"
+  tasks:
+    - name: host configuration
+      lineinfile:
+        dest: /etc/hosts
+        state: present
+        line: "{{item}}"
+      with_items:
+        - 192.168.1.2 control-node
+        - 192.168.1.3 app01
+        - 192.168.1.4 db01
+    - name: add user 
+      user:
+        name: app
+        comment: app user
+        uid: 500
+    - name: maven installing
+      yum:
+        name: maven
+        state: latest
+    - name: jre installing
+      yum:
+        name: java-1.8.0-openjdk
+        state: latest
+    - name: dir creation
+      file: 
+        path: /opt/notes
+        state: directory
+        owner: app
+        group: app
+    - name: git clone app repository
+      git:
+        repo: 'https://github.com/callicoder/spring-boot-mysql-rest-api-tutorial.git'
+        dest: /opt/notes
+        clone: yes
+        force: yes
+    - name: config property file
+      template: 
+        src: application.properties
+        dest: /opt/notes/src/main/resources/aplication.properties
+    - name: generate app package
+        command: mvn -f /opt/notes.pom.xml package
+        
+
+        
